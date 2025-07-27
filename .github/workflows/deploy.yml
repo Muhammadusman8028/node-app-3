@@ -10,19 +10,19 @@ jobs:
     name: Build and Deploy
     runs-on: ubuntu-latest
     env:
-      EC2_HOST: "ec2-16-171-231-5.eu-north-1.compute.amazonaws.com"        
+      EC2_HOST: "ec2-54-234-128-229.compute-1.amazonaws.com"        
       EC2_USER: "ubuntu"       
-      EC2_APP_PATH: "/home/ubuntu/simple-node-app/" 
+      EC2_APP_PATH: "/var/www/node-app-3/" 
 
     steps:
-      - name: Checkoutt Code
+      - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Install Dependencie
+      - name: Install Dependencies
         run: npm install
 
 
-      - name: SSH into EC2 instace and Deployy
+      - name: SSH into EC2 instace and Deploy
         uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ env.EC2_HOST }}
@@ -31,7 +31,7 @@ jobs:
           port: 22
           script: |
             echo "Pulling latest changes on EC2"
-            cd $ /var/www/node-app-3
+            cd /var/www/node-app-3
             npm install 
             echo "Restarting application"
             pm2 restart app || pm2 start index.js --name app
